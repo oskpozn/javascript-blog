@@ -93,7 +93,7 @@ function generateTags(){
   }
 }
 
-//generateTags();
+generateTags();
 
 function tagClickHandler(event){
   /* prevent default action for this event */
@@ -167,6 +167,9 @@ function authorClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
   const href = clickedElement.getAttribute('href');
-  const authorLinks = document.querySelectorAll('a[href="#" ')
+  const authorLinks = document.querySelectorAll('a[href="#" ');
+  for (let authorLink of authorLinks) {
+    this.authorLink.remove('active');
+  }
 }
 

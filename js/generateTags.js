@@ -58,7 +58,7 @@ function tagClickHandler(event){
   /* execute function "generateTitleLinks" with article selector as argument */
 }
 
-generateTitleLinks(optArticleSelector);
+//generateTitleLinks(optArticleSelector);
 
 function addClickListenersToTags(){
   /* find all links to tags */
