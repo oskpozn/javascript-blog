@@ -199,7 +199,7 @@ function tagClickHandler(event){
 
 function addClickListenersToTags(){
   /* find all links to tags */
-  const tagLinks = document.querySelectorAll('.list.tags a, .list-tags');
+  const tagLinks = document.querySelectorAll('.list.tags a, .list-tags, .tags-horizontal a');
   //const tagLinks = document.querySelectorAll('tags')
   console.log('tagLinks of addClickListenersToTags: ', tagLinks);
   /* START LOOP: for each link */
@@ -213,64 +213,60 @@ function addClickListenersToTags(){
 addClickListenersToTags();
 
 function generateAuthors() {
-  const articles = document.querySelectorAll(optArticleAuthorSelector);
+  const articles = document.querySelectorAll(optArticleSelector);
   let html ='';
   let allAuthors = {};
-  const allAuthorsData = {articleAuthor:[]};
   for (let article of articles) {
-    let articleAuthor = article.innerHTML.split(' ')[1] + ' '+ article.innerHTML.split(' ')[2]; //powinno dać 'by *author*'
-    let author = article.innerHTML.split(' ')[1].toLowerCase()+'-'+article.innerHTML.split(' ')[2].toLowerCase();
-    allAuthorsData.authors = {
-      author: author,
-      articleAuthor: articleAuthor
-    };
-    console.log('allAuthorsData: ', allAuthorsData)
-    //console.log('articleAuthor: ', articleAuthor);
-    if (allAuthors[articleAuthor]) {
-      //console.log('ten author juz istnieje');
+    const author = article.getAttribute('data-author');
+    console.log(author)
+    const titleWrapper = article.querySelector(optArticleAuthorSelector);
+    const authorName = author.replace('-',' ');
+    titleWrapper.innerHTML = '<a href="#"><span class="author-name" data-author="'+author+'">'+authorName+'</span></a>'
+    if (allAuthors[author]) {
+    //   console.log('ten author juz istnieje');
     } else {
-      //console.log('dodajemy authora');
-
-      //const linkHTML = '<li><a href="#"><span class="author-name" author="'+author+'">'+articleAuthor+'</span></a></li>';
-      const linkHTML = templates.authorLink(allAuthorsData);
+      const linkHTML = '<li><a href="#"><span class="author-name" data-author="'+author+'">'+authorName+'</span></a></li>';
+      //const linkHTML = templates.authorLink(allAuthorsData);
       html = html + linkHTML;
-      allAuthors[articleAuthor] = 1;
+      allAuthors[author] = 1;
     }
   }
   const authorList = document.querySelector(optArticleAuthorList);
-  console.log('html: ', authorList);
+  // //console.log('html: ', authorList);
   authorList.insertAdjacentHTML('afterbegin', html);
 
 
   const links = document.querySelectorAll('.list.authors a');
-  console.log('links from generateauthors: ', links);
+  //console.log('links from generateauthors: ', links);
   for (let link of links) {
     link.addEventListener('click',authorClickHandler);
   }
-  //console.log('authorList: ', authorList)
+  ////console.log('authorList: ', authorList)
 }
+
 
 generateAuthors();
 
 function authorClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
-  //const href = clickedElement.querySelector('span').innerHTML;
-  //const href = clickedElement.getAttribute('author');
-  const href = clickedElement.querySelector('span').innerHTML.toLowerCase().split(' ')[0]+'-'+clickedElement.querySelector('span').innerHTML.toLowerCase().split(' ')[1];
-  console.log('authorHref: ',href);
-  const activeAuthors = document.querySelectorAll('.list.authors a.active');
+  const hre = clickedElement.querySelector('span')
+  const href = hre.getAttribute('data-author')
+  console.log(this)
+  //const href = clickedElement.getAttribute('data-author')
+  console.log('authorHref: ', href);
+  const activeAuthors = document.querySelectorAll('.list.authors a span.active');
   console.log('activeAuthors: ', activeAuthors);
   for (let activeAuthor of activeAuthors) {
     activeAuthor.classList.remove('active');
   }
-  const authorLinks = document.querySelectorAll('a[author="'+href+'"]');
+  const authorLinks = document.querySelectorAll('a span[data-author="'+href+'"]');
   console.log('authorLinks: ', authorLinks);
   for (let authorLink of authorLinks) {
     authorLink.classList.add('active');
     console.log('authorLink: ', authorLink);
   }
-  generateTitleLinks('[author = "'+href+'"]');
+  generateTitleLinks('[data-author = "'+href+'"]');
 }
 
 
