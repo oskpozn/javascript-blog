@@ -218,10 +218,10 @@ function generateAuthors() {
   let allAuthors = {};
   for (let article of articles) {
     const author = article.getAttribute('data-author');
-    console.log(author)
+    console.log(author);
     const titleWrapper = article.querySelector(optArticleAuthorSelector);
     const authorName = author.replace('-',' ');
-    titleWrapper.innerHTML = '<a href="#"><span class="author-name" data-author="'+author+'">'+authorName+'</span></a>'
+    titleWrapper.innerHTML = '<a href="#"><span class="author-name" data-author="'+author+'">'+authorName+'</span></a>';
     if (allAuthors[author]) {
     //   console.log('ten author juz istnieje');
     } else {
@@ -250,9 +250,9 @@ generateAuthors();
 function authorClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
-  const hre = clickedElement.querySelector('span')
-  const href = hre.getAttribute('data-author')
-  console.log(this)
+  const hre = clickedElement.querySelector('span');
+  const href = hre.getAttribute('data-author');
+  console.log(this);
   //const href = clickedElement.getAttribute('data-author')
   console.log('authorHref: ', href);
   const activeAuthors = document.querySelectorAll('.list.authors a span.active');
